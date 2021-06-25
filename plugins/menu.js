@@ -11,7 +11,7 @@ let tags = {
   'premium': 'Premium',
   'internet': 'Internet',
   'downloader': 'Downloader',
-  'tools, : 'Tools',
+  'tools': 'Tools',
   'vote': 'Voting',
   'owner': 'Dono',
   'host': 'Host',

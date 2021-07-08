@@ -23,8 +23,8 @@ module.exports = {
       m.exp = 0
       m.limit = false
       try {
-        let user = global.DATABASE._data.users[m.sender]
-        if (typeof user !== 'object') global.DATABASE._data.users[m.sender] = {}
+        let user = global.db.data.users[m.sender]
+        if (typeof user !== 'object') global.db.data.users[m.sender] = {}
         if (user) {
           if (!isNumber(user.exp)) user.exp = 0
           if (!isNumber(user.limit)) user.limit = 10
@@ -39,8 +39,9 @@ module.exports = {
           if (!('afkReason' in user)) user.afkReason = ''
           if (!('banned' in user)) user.banned = false
           if (!isNumber(user.level)) user.level = 0
+          if (!user.role) user.role = 'Beginner'
           if (!('autolevelup' in user)) user.autolevelup = false
-        } else global.DATABASE._data.users[m.sender] = {
+        } else global.db.data.users[m.sender] = {
           exp: 0,
           limit: 10,
           lastclaim: 0,
@@ -52,11 +53,12 @@ module.exports = {
           afkReason: '',
           banned: false,
           level: 0,
+          role: 'Beginner',
           autolevelup: false,
         }
 
-        let chat = global.DATABASE._data.chats[m.chat]
-        if (typeof chat !== 'object') global.DATABASE._data.chats[m.chat] = {}
+        let chat = global.db.data.chats[m.chat]
+        if (typeof chat !== 'object') global.db.data.chats[m.chat] = {}
         if (chat) {
           if (!('isBanned' in chat)) chat.isBanned = false
           if (!('welcome' in chat)) chat.welcome = false
@@ -67,7 +69,7 @@ module.exports = {
           if (!('sDemote' in chat)) chat.sDemote = ''
           if (!('delete' in chat)) chat.delete = true
           if (!('antiLink' in chat)) chat.antiLink = false
-        } else global.DATABASE._data.chats[m.chat] = {
+        } else global.db.data.chats[m.chat] = {
           isBanned: false,
           welcome: false,
           detect: false,
@@ -101,7 +103,7 @@ module.exports = {
       m.exp += Math.ceil(Math.random() * 10)
 
       let usedPrefix
-      let _user = global.DATABASE.data && global.DATABASE.data.users && global.DATABASE.data.users[m.sender]
+      let _user = global.db.data && global.db.data.users && global.db.data.users[m.sender]
 
       let isROwner = [global.conn.user.jid, ...global.owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
       let isOwner = isROwner || m.fromMe
@@ -169,9 +171,9 @@ module.exports = {
 
           if (!isAccept) continue
           m.plugin = name
-          if (m.chat in global.DATABASE._data.chats || m.sender in global.DATABASE._data.users) {
-            let chat = global.DATABASE._data.chats[m.chat]
-            let user = global.DATABASE._data.users[m.sender]
+          if (m.chat in global.db.data.chats || m.sender in global.db.data.users) {
+            let chat = global.db.data.chats[m.chat]
+            let user = global.db.data.users[m.sender]
             if (name != 'unbanchat.js' && chat && chat.isBanned) return // Except this
             if (name != 'unbanuser.js' && user && user.banned) return
           }
@@ -216,11 +218,15 @@ module.exports = {
 
           m.isCommand = true
           let xp = 'exp' in plugin ? parseInt(plugin.exp) : 17 // XP Earning per command
-          if (xp > 200) m.reply('espirrar -_-') // Hehehe
+          if (xp > 200) m.reply('Ngecit -_-') // Hehehe
           else m.exp += xp
-          if (!isPrems && plugin.limit && global.DATABASE._data.users[m.sender].limit < plugin.limit * 0) {
-            this.reply(m.chat, `*Seu limite aumentou, por favor, compre via*${usedPrefix}buy*`, m)
+          if (!isPrems && plugin.limit && global.db.data.users[m.sender].limit < plugin.limit * 1) {
+            this.reply(m.chat, `Limit anda habis, silahkan beli melalui *${usedPrefix}buy*`, m)
             continue // Limit habis
+          }
+          if (plugin.level > _user.level) {
+            this.reply(m.chat, `diperlukan level ${plugin.level} untuk menggunakan perintah ini. Level kamu ${_user.level}`, m)
+            continue // If the level has not been reached
           }
           let extra = {
             match,
@@ -264,16 +270,16 @@ module.exports = {
                 console.error(e)
               }
             }
-            if (m.limit) m.reply(+ m.limit + ' *Sem Spam*')
+            if (m.limit) m.reply(+ m.limit + ' Limit terpakai')
           }
           break
         }
       }
     } finally {
-      //console.log(global.DATABASE._data.users[m.sender])
-      let user, stats = global.DATABASE._data.stats
+      //console.log(global.db.data.users[m.sender])
+      let user, stats = global.db.data.stats
       if (m) {
-        if (m.sender && (user = global.DATABASE._data.users[m.sender])) {
+        if (m.sender && (user = global.db.data.users[m.sender])) {
           user.exp += m.exp
           user.limit -= m.limit * 1
         }
@@ -307,10 +313,11 @@ module.exports = {
       } catch (e) {
         console.log(m, m.quoted, e)
       }
+      if (opts['autoread']) await this.chatRead(m.chat).catch(() => { })
     }
   },
   async participantsUpdate({ jid, participants, action }) {
-    let chat = global.DATABASE._data.chats[jid] || {}
+    let chat = global.db.data.chats[jid] || {}
     let text = ''
     switch (action) {
       case 'add':
@@ -349,12 +356,11 @@ module.exports = {
   },
   async delete(m) {
     if (m.key.fromMe) return
-    let chat = global.DATABASE._data.chats[m.key.remoteJid]
+    let chat = global.db.data.chats[m.key.remoteJid]
     if (chat.delete) return
     await this.reply(m.key.remoteJid, `
-detectou @${m.participant.split`@`[0]} mensagem excluída!
-
-Para desligar este recurso, digite
+Terdeteksi @${m.participant.split`@`[0]} telah menghapus pesan
+Untuk mematikan fitur ini, ketik
 *.enable delete*
 `.trim(), m.message, {
       contextInfo: {
@@ -365,7 +371,7 @@ Para desligar este recurso, digite
   },
   async onCall(json) {
     let { from } = json[2][0][1]
-    let users = global.DATABASE.data.users
+    let users = global.db.data.users
     let user = users[from] || {}
     if (user.whitelist) return
     switch (this.callWhitelistMode) {
@@ -374,22 +380,22 @@ Para desligar este recurso, digite
           return
         break
     }
-    await this.sendMessage(from, 'Desculpe, porque você chamou o bot. você está automaticamente bloqueado', MessageType.extendedText)
-    await this.blockUser(from, 'adicionado')
+    await this.sendMessage(from, 'Maaf, karena anda menelfon bot. anda diblokir otomatis', MessageType.extendedText)
+    await this.blockUser(from, 'add')
   }
 }
 
 global.dfail = (type, m, conn) => {
   let msg = {
-    rowner: '*Este comando só pode ser usado por* *DONO*',
-    owner: '*Este comando só pode ser usado por',
-    mods: '*Este comando só pode ser usado por _*Moderator*_ !',
-    premium: '*Este comando é apenas para membe _*Premium*_ !',
-    group: '*Este comando só pode ser usado di grup!',
-    private: '*Este comando só pode ser usado no Chat Privado!',
-    admin: '*Este comando é apenas para *Admin* grup!',
-    botAdmin: '*Faça o barco como *Admin* para usar este comando!',
-    unreg: '*Registre-se para usar este recurso digitando:* \n\nExemplo: *#registrer vini.18*'
+    rowner: '*Este comando só pode ser usado por* *VINI LINDU*',
+    owner: '*Este comando só pode ser usado pelo* *Dono Do Bot*!',
+    mods: 'Este comando só pode ser usado pelo *Moderador*!',
+    premium: '*Este comando é apenas para membros* *Premium*!',
+    group: '*Este comando só pode ser usado em grupos!*',
+    private: '*Este comando só pode ser usado no Chat Privado*!',
+    admin: '*Este comando é apenas para* *Ademir* *Grupo*!',
+    botAdmin: '*Faça o barco como* *Ademir* *para usar este comando!*',
+    unreg: '*Registre-se para usar este recurso digitando:*\n\n *#register de names.age*\n\n*Exemplo:* *#lista de humanos. 16* '
   }[type]
   if (msg) return m.reply(msg)
 }

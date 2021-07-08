@@ -15,14 +15,14 @@ let handler = async (m, { conn, usedPrefix, command }) => {
                 conn.sendFile(m.chat, buff, ran, null, m, true, { quoted: m, mimetype: 'audio/mp4' })
                 fs.unlinkSync(ran)
             })
-        } else throw `Balas vn/audio yang ingin diubah dengan caption *${usedPrefix + command}*`
+        } else throw `*Marque o audio que queira converter* *${usedPrefix + command}*`
     } catch (e) {
         throw e
     }
 }
-handler.help = ['deep']
+handler.help = ['profundo']
 handler.tags = ['audio']
-handler.command = /^(deep)$/i
+handler.command = /^(profundo)$/i
 
 module.exports = handler
 

@@ -20,9 +20,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         throw e
     }
 }
-handler.help = ['blown']
+handler.help = ['estourado']
 handler.tags = ['audio']
-handler.command = /^(blown)$/i
+handler.command = /^(estourado)$/i
 
 module.exports = handler
 

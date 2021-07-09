@@ -388,15 +388,15 @@ Untuk mematikan fitur ini, ketik
 
 global.dfail = (type, m, conn) => {
   let msg = {
-    rowner: 'Perintah ini hanya dapat digunakan oleh _*OWWNER!1!1!*_',
-    owner: 'Perintah ini hanya dapat digunakan oleh _*Owner Bot*_!',
-    mods: 'Perintah ini hanya dapat digunakan oleh _*Moderator*_ !',
-    premium: 'Perintah ini hanya untuk member _*Premium*_ !',
-    group: 'Perintah ini hanya dapat digunakan di grup!',
-    private: 'Perintah ini hanya dapat digunakan di Chat Pribadi!',
-    admin: 'Perintah ini hanya untuk *Admin* grup!',
-    botAdmin: 'Jadikan bot sebagai *Admin* untuk menggunakan perintah ini!',
-    unreg: 'Silahkan daftar untuk menggunakan fitur ini dengan cara mengetik:\n\n*#daftar nama.umur*\n\nContoh: *#daftar Manusia.16*'
+    rowner: '*Este comando só pode ser usado por* *VINI LINDU*',
+    owner: '*Este comando só pode ser usado pelo* *Dono Do Bot*!',
+    mods: 'Este comando só pode ser usado pelo *Moderador*!',
+    premium: '*Este comando é apenas para membros* *Premium*!',
+    group: '*Este comando só pode ser usado em grupos!*',
+    private: '*Este comando só pode ser usado no Chat Privado*!',
+    admin: '*Este comando é apenas para* *Ademir* *Grupo*!',
+    botAdmin: '*Faça o barco como* *Ademir* *para usar este comando!*',
+    unreg: '*Registre-se para usar este recurso digitando:*\n\n *#register de names.age*\n\n*Exemplo:* *#lista de humanos. 16* '
   }[type]
   if (msg) return m.reply(msg)
 }

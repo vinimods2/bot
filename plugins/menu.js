@@ -2,48 +2,39 @@ let fs = require('fs')
 let path = require('path')
 let levelling = require('../lib/levelling')
 let tags = {
-  'main': 'Main',
-  'yt': 'Canais Parceiros',
-  'game': 'Game',
-  'xp': 'Exp & Limit',
-  'sticker': 'Sticker',
-  'audio': 'Conversao Audio',
-  'admin': 'Admin',
-  'group': 'Group',
-  'premium': 'Premium',
-  'internet': 'Internet',
-  'downloader': 'Downloader',
-  'tools': 'Tools',
-  'vote': 'Voting',
-  'owner': 'Dono',
-  'host': 'Host',
-  'info': 'Info',
+      'main': '🔻Comandos🔻',
+      'yt': '🚩Canais Parceiros',
+      'xp': '🔰Exp & Limite🔰',
+      'audio': '🔃Conversão Audio🔃',
+      'sticker': '☢️Sticker☢️',
+      'admin': '😈Ademir😈',
+      'downloader': '🎵Musica🎵',
+      'ferramenta': '⚙️Ferramentas⚙️',
+      'grupo': '🌀Grupo🌀',
+      'dono': '😎Dono😎',
+      'info': '✅Info✅',
 }
 const defaultMenu = {
   before: `
-  ┏
-  ┃ 𝑶𝑳𝑨 %name! 
-  ┣━━━━━━━━━━━━━━━━━━━━
-  ┃ *EXP DE CONVERSA*
-  ┃ *%exp XP*
-  ┃ *EXP* *%limit Limites*
-  ┃ *Level* *%level*
-  ┣━━━━━━━━━━━━━━━━━━━━
-  ┃ *BOT ONLINE*:
-  ┃ *Tempo de atividade:* *%uptime*
-  ┣━━━━━━━━━━━━━━━━━━━━
-  ┃ *Canal Do YouTube*
-  ┃ *www.youtube.com/c/VINIMODSYT*
-  ┣━━━━━━━━━━━━━━━━━━━━
-  ┃ *Dono:* *https://wa.me/5514997239463*
-  ┣━━━━━━━━━━━━━━━━━━━━
-  ┃ *LINK DO MEU GRUPO😈😎*
-  ┃ *https://chat.whatsapp.com/KvtYJXhgxoG2s7wZmedHFM*
-  ┣━━━━━━━━━━━━━━━━━━━━
-  ┃ *BOT SO FUNCIONA EM GRUPO!*
-  ┗━━━━━━━━━━━━━━━━━━━━
+┏
+┃ 𝑶𝑳𝑨 %name! 
+┣━━━━━━━━━━━━━━━━━━━━
+┃ *EXP DE CONVERSA*
+┃ *%exp XP*
+┃ *EXP* *%limit Limites*
+┣━━━━━━━━━━━━━━━━━━━━
+┃ *BOT ONLINE*:
+┃ *Tempo de atividade:* *%uptime*
+┣━━━━━━━━━━━━━━━━━━━━
+┃ *Canal Do YouTube*
+┃ *www.youtube.com/c/VINIMODSYT*
+┣━━━━━━━━━━━━━━━━━━━━
+┃ *Dono: wa.me/5514997239463*
+┣━━━━━━━━━━━━━━━━━━━━
+┃ *BOT SO FUNCIONA EM GRUPO!*
+┗━━━━━━━━━━━━━━━━━━━━
 %readmore`.trimStart(),
-  header: '┏「 %category 」',
+  header: '┏〘 %category 〙',
   body: '┃ ➤ %cmd %islimit %isPremium',
   footer: '┗━━━━\n',
   after: `
@@ -54,7 +45,7 @@ ${'```%npmdesc```'}
 let handler = async (m, { conn, usedPrefix: _p }) => {
   try {
     let package = JSON.parse(await fs.promises.readFile(path.join(__dirname, '../package.json')).catch(_ => '{}'))
-    let { exp, limit, level } = global.DATABASE.data.users[m.sender]
+    let { exp, limit, level, role } = global.db.data.users[m.sender]
     let { min, xp, max } = levelling.xpRange(level, global.multiplier)
     let name = conn.getName(m.sender)
     let d = new Date(new Date + 3600000)
@@ -91,14 +82,15 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
     }
     let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
-    let totalreg = Object.keys(global.DATABASE._data.users).length
-    let rtotalreg = Object.values(global.DATABASE._data.users).filter(user => user.registered == true).length
+    let totalreg = Object.keys(global.db.data.users).length
+    let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length
     let help = Object.values(global.plugins).filter(plugin => !plugin.disabled).map(plugin => {
       return {
         help: Array.isArray(plugin.tags) ? plugin.help : [plugin.help],
         tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
         prefix: 'customPrefix' in plugin,
         limit: plugin.limit,
+        premium: plugin.premium,
         enabled: !plugin.disabled,
       }
     })
@@ -120,7 +112,7 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
                 .replace(/%islimit/g, menu.limit ? '(Limit)' : '')
-                .replace(/%isPremium/g, menu.limit ? '(Premium)' : '')
+                .replace(/%isPremium/g, menu.premium ? '(Premium)' : '')
                 .trim()
             }).join('\n')
           }),
@@ -142,13 +134,13 @@ let handler = async (m, { conn, usedPrefix: _p }) => {
       totalexp: exp,
       xp4levelup: max - exp,
       github: package.homepage ? package.homepage.url || package.homepage : '[unknown github url]',
-      level, limit, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg,
+      level, limit, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
       readmore: readMore
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
     conn.reply(m.chat, text.trim(), m)
   } catch (e) {
-    conn.reply(m.chat, 'Desculpe, o menu está errado', m)
+    conn.reply(m.chat, 'Maaf, menu sedang error', m)
     throw e
   }
 }

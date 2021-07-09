@@ -3,9 +3,11 @@ let path = require('path')
 let levelling = require('../lib/levelling')
 let tags = {
   'main': 'Main',
+  'yt': 'Canais Parceiros',
   'game': 'Game',
   'xp': 'Exp & Limit',
   'sticker': 'Sticker',
+  'audio': 'Conversao Audio',
   'admin': 'Admin',
   'group': 'Group',
   'premium': 'Premium',

@@ -21,7 +21,7 @@ ${isLimit ? 'Coloque-o ': ''}
 `.trim(), m)
 }
 handler.help = ['play', 'play2'].map(v => v + ' 〘nome da musica〙')
-handler.tags = ['musica']
+handler.tags = ['downloader']
 handler.command = /^play2?$/i
 
 handler.exp = 0

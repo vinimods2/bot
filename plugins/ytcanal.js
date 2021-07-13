@@ -4,23 +4,17 @@ let handler = async (m, { text }) => {
   let results = await yts(text)
   let teks = results.all.map(v => {
     switch (v.type) {
-      case 'video': return `
-*${v.title}* (${v.url})
-Duração: ${v.timestamp}
-Carregado ${v.ago}
-${v.views} views
-      `.trim()
       case 'channel': return `
 *${v.name}* (${v.url})
 _${v.subCountLabel} (${v.subCount}) Subscriber_
 ${v.videoCount} video
 `.trim()
     }
-  }).filter(v => v).join('\n========================\n')
+  }).filter(v => v).join('\n┣━━━━━━━━━━━━━━━━━━━━\n')
   m.reply(teks)
 }
-handler.help = ['', 'earch'].map(v => 'yts' + v + ' <procurar>')
-handler.tags = ['tools']
-handler.command = /^yts(earch)?$/i
+handler.help = ['', 'anal'].map(v => 'ytc' + v + ' <procurar>')
+handler.tags = ['musica']
+handler.command = /^ytc(anal)?$/i
 
 module.exports = handler

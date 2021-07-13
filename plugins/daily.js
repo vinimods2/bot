@@ -1,17 +1,19 @@
-let handler = async (m, { conn }) => {
-  if (new Date - global.DATABASE._data.users[m.sender].lastclaim > 86400000) {
-    global.DATABASE._data.users[m.sender].exp += 500
-    m.reply('+1000 XP')
-    global.DATABASE._data.users[m.sender].lastclaim = new Date * 1
-  } else m.reply('Você reivindicou seus xp diárias hoje')
+const free = 500
+const prem = 5000
+let handler = async (m, { isPrems }) => {
+  let time = global.db.data.users[m.sender].lastclaim + 86400000
+  if (new Date - global.db.data.users[m.sender].lastclaim < 86400000) throw `Anda sudah mengklaim klaim harian hari ini\ntunggu selama ${msToTime(time - new Date())} lagi`
+  global.db.data.users[m.sender].exp += isPrems ? prem : free
+  m.reply(`+${isPrems ? prem : free} XP`)
+  global.db.data.users[m.sender].lastclaim = new Date * 1
 }
-handler.help = ['diaria', 'claim']
+handler.help = ['diaria', 'deldiaria']
 handler.tags = ['xp']
-handler.command = /^(diaria|claim)$/i
+handler.command = /^(diaria|deldiaria)$/i
 handler.owner = false
 handler.mods = false
 handler.premium = false
-handler.group = true
+handler.group = false
 handler.private = false
 
 handler.admin = false
@@ -22,3 +24,15 @@ handler.exp = 0
 
 module.exports = handler
 
+function msToTime(duration) {
+  var milliseconds = parseInt((duration % 1000) / 100),
+    seconds = Math.floor((duration / 1000) % 60),
+    minutes = Math.floor((duration / (1000 * 60)) % 60),
+    hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
+
+  hours = (hours < 10) ? "0" + hours : hours
+  minutes = (minutes < 10) ? "0" + minutes : minutes
+  seconds = (seconds < 10) ? "0" + seconds : seconds
+
+  return hours + " jam " + minutes + " menit"
+}

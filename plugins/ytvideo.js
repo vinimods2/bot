@@ -15,7 +15,7 @@ ${v.views} views
   m.reply(teks)
 }
 handler.help = ['', 'ideo'].map(v => 'ytv' + v + ' <procurar>')
-handler.tags = ['musica']
+handler.tags = ['downloader']
 handler.command = /^ytv(ideo)?$/i
 
 module.exports = handler

@@ -19,7 +19,8 @@ const defaultMenu = {
 ┏
 ┃ 𝑶𝑳𝑨 %name! 
 ┣━━━━━━━━━━━━━━━━━━━━
-┃ *EXP DE CONVERSA*
+┃ *EXP E LEVEL DE CONVERSA*
+┃ *LEVEL* *%level*
 ┃ *%exp XP*
 ┃ *EXP* *%limit Limites*
 ┣━━━━━━━━━━━━━━━━━━━━
@@ -29,7 +30,7 @@ const defaultMenu = {
 ┃ *Canal Do YouTube*
 ┃ *www.youtube.com/c/VINIMODSYT*
 ┣━━━━━━━━━━━━━━━━━━━━
-┃ *Dono: wa.me/5514997239463*
+┃ *Dono: https://wa.me/5514997239463*
 ┣━━━━━━━━━━━━━━━━━━━━
 ┃ *BOT SO FUNCIONA EM GRUPO!*
 ┗━━━━━━━━━━━━━━━━━━━━

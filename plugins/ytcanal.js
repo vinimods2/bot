@@ -14,7 +14,7 @@ ${v.videoCount} video
   m.reply(teks)
 }
 handler.help = ['', 'anal'].map(v => 'ytc' + v + ' <procurar>')
-handler.tags = ['musica']
+handler.tags = ['downloader']
 handler.command = /^ytc(anal)?$/i
 
 module.exports = handler

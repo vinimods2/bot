@@ -5,11 +5,12 @@ let who
   if (m.isGroup) who = m.mentionedJid[0]
   else who = m.chat
   if (!who) throw '*Identifique um deles e insira o número para verificação!*'
-   if (participants.map(v=>v.jid).includes(global.conn.user.jid)) {
+  if (participants.map(v=>v.jid).includes(global.conn.user.jid)) {
     global.DATABASE._data.chats[m.chat].premium = true
   var nomor = m.sender
     m.reply(`*Feito adicionado Usuário✅*\n\n*Nome : wa.me/${nomor.split("@s.whatsapp.net")[0]}\n*Vencimento:* 30Dias\n*Obrigado Premium Adicionado!*`)
-   } else m.reply('Há um número de host aqui...')
+ 
+  } else m.reply('Há um número de host aqui...')
 }
 handler.help = ['adicionarpremium 〘nome〙']
 handler.tags = ['dono']

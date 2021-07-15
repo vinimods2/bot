@@ -8,7 +8,7 @@ handler.before = function (m, { user }) {
 
   if (chat.antiLink && isGroupLink) {
     m.reply('exclui!!')
-    if (global.opts['restringir']) {
+    if (global.opts['restrict']) {
     if (!user.isAdmin) return true
     this.groupRemove(m.chat, [m.sender])
    }

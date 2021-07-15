@@ -10,7 +10,7 @@ let handler = async (m, { conn, text}) => {
     conn.reply(m.chat, `*banido com sucesso voce nao usara o bot mais!*`,m)
 }
 handler.help = ['ban 〘@user〙']
-handler.tags = ['owner']
+handler.tags = ['dono']
 handler.command = /^ban$/i
 handler.rowner = true
 handler.owner = true

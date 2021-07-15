@@ -1,6 +1,6 @@
 global.owner = ['5514997239463'] // Put your number here
-global.mods = [] // Want some help?
-global.prems = [] // Premium user has unlimited limit
+global.mods = [5514997239463] // Want some help?
+global.prems = [5514997239463] // Premium user has unlimited limit
 global.APIs = { // API Prefix
   // name: 'https://website'
   nrtm: 'https://nurutomo.herokuapp.com',
@@ -16,8 +16,8 @@ global.APIKeys = { // APIKey Here
 }
 
 // Sticker WM
-global.packname = 'I hope you\'re fine'
-global.author = 'ViniGatao'
+global.packname = 'Eu espero que você esteja bem'
+global.author = '"ViniModsYT"Melhor'
 
 global.multiplier = 69 // The higher, The harder levelup
 

@@ -8,7 +8,7 @@ let handler = async (m, { conn }) => {
 }
 
 handler.help = ['meme']
-handler.tags = ['internet']
+handler.tags = ['sticker']
 
 handler.command = /^(meme)$/i
 

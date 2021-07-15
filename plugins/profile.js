@@ -13,13 +13,12 @@ let handler = async (m, { conn }) => {
     let { min, xp, max } = levelling.xpRange(level, global.multiplier)
     let username = conn.getName(who)
     let str = `
-Name: ${username} ${registered ? '(' + name + ') ': ''}(@${who.replace(/@.+/, '')})${about ? '\nAbout: ' + about : ''}
-Numero: ${PhoneNumber('+' + who.replace('@s.whatsapp.net', '')).getNumber('international')}
-Link: https://wa.me/${who.split`@`[0]}${registered ? '\nAge: ' + age : ''}
-XP: TOTAL ${exp} (${exp - min} / ${xp}) [${max - exp} esquerda para subir de nível]
-Level: ${level}
-Limite: ${limit}
-Registered: ${registered ? 'Ok (' + new Date(regTime) + ')': 'No'}${lastclaim > 0 ? '\nÚltima reivindicação: ' + new Date(lastclaim) : ''}
+*Nome*: ${username} ${registered ? '(' + name + ') ': ''}(@${who.replace(/@.+/, '')})${about ? '\n*Status:* ' + about : ''}
+*Link:* https://wa.me/${who.split`@`[0]}${registered ? '\nAge: ' + age : ''}
+*XP:* ${exp} (${exp - min} / ${xp})
+*Level:* ${level}
+*Limite:* ${limit}
+*Registrado:* ${registered ? 'Ok (' + new Date(regTime) + ')': 'No'}${lastclaim > 0 ? '\nÚltima reivindicação: ' + new Date(lastclaim) : ''}
 `.trim()
     let mentionedJid = [who]
     conn.sendFile(m.chat, pp, 'pp.jpg', str, m, false, { contextInfo: { mentionedJid }})

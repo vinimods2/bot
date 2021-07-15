@@ -1,6 +1,6 @@
 let handler = async (m, { conn }) => {
-  let txt = conn.chats.array.filter(v => v.jid.endsWith('g.us')).map(v =>`${conn.getName(v.jid)}\n${v.jid} [${v.read_only ? 'Deixou' : 'Ingressou'}]`).join`\n\n`
-  conn.reply(m.chat, 'Lista Groups:\n' + txt, m)
+  let txt = conn.chats.array.filter(v => v.jid.endsWith('g.us')).map(v =>`${conn.getName(v.jid)}\n${v.jid} [${v.read_only ? 'Saiu' : 'Entrou'}]`).join`\n\n`
+  conn.reply(m.chat, 'Lista Grupos:\n' + txt, m)
 }
 handler.help = ['grupo', 'listagrupo']
 handler.tags = ['dono']

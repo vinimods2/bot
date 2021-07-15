@@ -146,19 +146,19 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
       break
     default:
       if (!/[01]/.test(command)) throw `
-List option: welcome | delete | public | antilink | autolevelup | detect | document | whitelistmycontacts | restrict | nyimak | autoread | pconly | gconly | swonly
-Contoh:
+Lista opção: welcome | delete | public | antilink | autolevelup | detect | document | whitelistmycontacts | restrict | nyimak | autoread | pconly | gconly | swonly
+Exemplo:
 ${usedPrefix}enable welcome
 ${usedPrefix}disable welcome
 `.trim()
       throw false
   }
   m.reply(`
-*${type}* bem sucedida em *${isEnable ? 'nyala' : 'mati'}posso* ${isAll ? 'para este barco' : isUser ? '' : 'para este chat'}
+*${type}* *bem sucedida em* *${isEnable ? 'Ligado' : 'Desligado'}Grupo* ${isAll ? '*para este barco*' : isUser ? '' : '*para este chat*'}
 `.trim())
 }
 handler.help = ['en', 'dis'].map(v => v + 'able <option>')
-handler.tags = ['group', 'owner']
+handler.tags = ['grupo']
 handler.command = /^((en|dis)able|(tru|fals)e|(turn)?o(n|ff)|[01])$/i
 
 module.exports = handler

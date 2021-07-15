@@ -5,12 +5,12 @@ let handler = async (m, { text }) => {
   let teks = results.all.map(v => {
     switch (v.type) {
       case 'channel': return `
-*${v.name}* (${v.url})
-_${v.subCountLabel} (${v.subCount}) Subscriber_
-${v.videoCount} video
+*${v.name}* *(${v.url})*
+*${v.subCountLabel}* *(${v.subCount})* *Inscritos*
+*${v.videoCount}* *Videos*
 `.trim()
     }
-  }).filter(v => v).join('\n┣━━━━━━━━━━━━━━━━━━━━\n')
+  }).filter(v => v).join('\n╾┣━━━━━━━━━━━━━━━━━━━━┫╼\n')
   m.reply(teks)
 }
 handler.help = ['', 'anal'].map(v => 'ytc' + v + ' <procurar>')

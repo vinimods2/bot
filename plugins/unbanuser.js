@@ -10,7 +10,7 @@ let handler = async (m, { conn, text}) => {
     conn.reply(m.chat, `*desbanido com sucesso agora respeite pra nao se repetir!*`, m)
 }
 handler.help = ['ban']
-handler.tags = ['owner']
+handler.tags = ['dono']
 handler.command = /^unban$/i
 handler.rowner = true
 

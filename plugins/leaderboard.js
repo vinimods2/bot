@@ -27,9 +27,9 @@ ${sortedLevel.slice(0, len).map(({ jid, level }, i) => `${i + 1}. ${participants
     }
   })
 }
-handler.help = ['listaxp [resultar user]', 'lb [resultar user]']
+handler.help = ['leaderboard [resultar user]', 'lb [resultar user]']
 handler.tags = ['xp']
-handler.command = /^(listaxp|lb)$/i
+handler.command = /^(leaderboard|lb)$/i
 handler.owner = false
 handler.mods = false
 handler.premium = false

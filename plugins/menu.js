@@ -1,6 +1,7 @@
 let fs = require('fs')
 let path = require('path')
 let levelling = require('../lib/levelling')
+let handler = async (m, { conn }) => {
 let pp = './src/avatar_contact.png'
 let tags = {
       'main': '🔻Comandos🔻',
@@ -159,7 +160,7 @@ handler.admin = false
 handler.botAdmin = false
 
 handler.fail = null
-handler.exp = 5
+handler.exp = 15
 
 module.exports = handler
 

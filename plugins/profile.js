@@ -25,7 +25,7 @@ let handler = async (m, { conn }) => {
   }
 }
 handler.help = ['profile [@user]']
-handler.tags = ['tools']
+handler.tags = ['grupo']
 handler.command = /^profile$/i
 module.exports = handler
 

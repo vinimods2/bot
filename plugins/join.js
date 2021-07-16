@@ -9,7 +9,7 @@ let handler = async (m, { conn, text }) => {
 handler.help = ['gpprem <link>']
 handler.tags = ['premium']
 
-handler.command = /^join$/i
+handler.command = /^gpprem$/i
 
 handler.premium = true
 

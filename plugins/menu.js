@@ -1,8 +1,6 @@
 let fs = require('fs')
 let path = require('path')
 let levelling = require('../lib/levelling')
-let handler = async (m, { conn }) => {
-let pp = './src/avatar_contact.png'
 let tags = {
       'main': '🔻Comandos🔻',
       'yt': '🚩Canais Parceiros',
@@ -45,6 +43,9 @@ const defaultMenu = {
 ${'```%npmdesc```'}
 `,
 }
+let pp = './src/avatar_contact.png'
+    try {
+        pp = await conn.getProfilePicture(m.chat)
 let handler = async (m, { conn, usedPrefix: _p }) => {
   try {
     let package = JSON.parse(await fs.promises.readFile(path.join(__dirname, '../package.json')).catch(_ => '{}'))

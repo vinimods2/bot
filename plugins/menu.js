@@ -14,9 +14,6 @@ let tags = {
       'dono': '😎Dono😎',
       'info': '✅Info✅',
 }
-let pp = './src/avatar_contact.png'
-    try {
-        pp = await conn.getProfilePicture(m.chat)
 const defaultMenu = {
   before: `
 ┏

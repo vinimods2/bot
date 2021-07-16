@@ -14,6 +14,9 @@ let tags = {
       'dono': '😎Dono😎',
       'info': '✅Info✅',
 }
+let pp = './src/avatar_contact.png'
+    try {
+        pp = await conn.getProfilePicture(m.chat)
 const defaultMenu = {
   before: `
 ┏
@@ -43,9 +46,6 @@ const defaultMenu = {
 ${'```%npmdesc```'}
 `,
 }
-let pp = './src/avatar_contact.png'
-    try {
-        pp = await conn.getProfilePicture(m.chat)
 let handler = async (m, { conn, usedPrefix: _p }) => {
   try {
     let package = JSON.parse(await fs.promises.readFile(path.join(__dirname, '../package.json')).catch(_ => '{}'))

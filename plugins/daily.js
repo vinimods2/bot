@@ -1,5 +1,5 @@
 const free = 500
-const prem = 5000
+const prem = 500000
 let handler = async (m, { isPrems }) => {
   let time = global.db.data.users[m.sender].lastclaim + 86400000
   if (new Date - global.db.data.users[m.sender].lastclaim < 86400000) throw `Você reivindicou a reivindicação diária hoje\nEsperar por ${msToTime(time - new Date())} novamente`
